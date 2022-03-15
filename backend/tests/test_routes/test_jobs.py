@@ -1,31 +1,29 @@
 import json
 
 
-def test_create_job(client):
-    data={
+def test_create_job(client,normal_user_token_headers):
+    data = {
         "title":"SDE 1 Yahoo",
         "company":"testhoo",
-        "company_url":"https://www.fdj.com",
+        "company_url":"https://wwww.fdj.com",
         "location":"USA,NY",
         "description":"Testing",
-        "date_posted":"2020-07-20"
-        }
+        "date_posted":"2022-07-20"
+    }
+    response = client.post("/job/create-job",json.dumps(data),headers=normal_user_token_headers)
+    assert response.status_code == 200
 
-    response=client.post("/job/create-job",json.dumps(data))
-    assert response.status_code==200
 
-
-def test_retrieve_by_id(client):
-    data={
+def test_retreive_job_by_id(client,normal_user_token_headers):
+    data = {
         "title":"SDE 1 Yahoo",
         "company":"testhoo",
-        "company_url":"https://www.fdj.com",
+        "company_url":"https://wwww.fdj.com",
         "location":"USA,NY",
         "description":"Testing",
-        "date_posted":"2020-07-20"
-        }
-
-    client.post("/job/create-job",json.dumps(data))
+        "date_posted":"2022-07-20"
+    }
+    client.post("/jobs/create-job/",data=json.dumps(data),headers=normal_user_token_headers)
     response = client.get("/job/get/1")
-    assert response.status_code==200
-    assert response.json()["title"]=="SDE 1 Yahoo"
+    assert response.status_code == 200
+    assert response.json()["title"] == "SDE 1 Yahoo"
